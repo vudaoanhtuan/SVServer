@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+package protobuf;
+
+
+option java_outer_classname = "Mess";
+
+message Message {
+  enum MessageType {
+    ERROR = 0;
+    INFO = 1;
+    SET_ID = 2;
+    CONNECT = 3; // connect other client via id
+    DISCONNECT = 4;
+
+    VIEW_SCREEN = 10;
+    SEND_FILE = 11;
+    CHAT = 12;
+  }
+
+  required MessageType type = 1 [default = ERROR];
+
+  // mess for CHAT
+  optional string mess = 2;
+
+  // id for SET_ID, CONNECT
+  optional int32 id = 3;
+}
