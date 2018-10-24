@@ -58,7 +58,7 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
     boolean hasId();
     /**
@@ -66,9 +66,45 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
-    long getId();
+    int getId();
+
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    java.util.List<java.lang.Integer> getListIdList();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListIdCount();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListId(int index);
+
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    boolean hasContent();
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    com.google.protobuf.ByteString getContent();
+
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    boolean hasFilename();
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    java.lang.String getFilename();
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
   }
   /**
    * Protobuf type {@code protobuf.Message}
@@ -85,7 +121,10 @@ public final class Mess {
     private Message() {
       type_ = 0;
       mess_ = "";
-      id_ = 0L;
+      id_ = 0;
+      listId_ = java.util.Collections.emptyList();
+      content_ = com.google.protobuf.ByteString.EMPTY;
+      filename_ = "";
     }
 
     @java.lang.Override
@@ -132,7 +171,39 @@ public final class Mess {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              id_ = input.readInt64();
+              id_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              listId_.add(input.readInt32());
+              break;
+            }
+            case 34: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008) && input.getBytesUntilLimit() > 0) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                listId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              content_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              filename_ = bs;
               break;
             }
             default: {
@@ -150,6 +221,9 @@ public final class Mess {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -392,13 +466,13 @@ public final class Mess {
     }
 
     public static final int ID_FIELD_NUMBER = 3;
-    private long id_;
+    private int id_;
     /**
      * <pre>
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -408,10 +482,89 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
-    public long getId() {
+    public int getId() {
       return id_;
+    }
+
+    public static final int LIST_ID_FIELD_NUMBER = 4;
+    private java.util.List<java.lang.Integer> listId_;
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getListIdList() {
+      return listId_;
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListIdCount() {
+      return listId_.size();
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListId(int index) {
+      return listId_.get(index);
+    }
+
+    public static final int CONTENT_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString content_;
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    public boolean hasContent() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    public com.google.protobuf.ByteString getContent() {
+      return content_;
+    }
+
+    public static final int FILENAME_FIELD_NUMBER = 6;
+    private volatile java.lang.Object filename_;
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public boolean hasFilename() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          filename_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -439,7 +592,16 @@ public final class Mess {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, mess_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, id_);
+        output.writeInt32(3, id_);
+      }
+      for (int i = 0; i < listId_.size(); i++) {
+        output.writeInt32(4, listId_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, content_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, filename_);
       }
       unknownFields.writeTo(output);
     }
@@ -459,7 +621,23 @@ public final class Mess {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, id_);
+          .computeInt32Size(3, id_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < listId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(listId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getListIdList().size();
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, content_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, filename_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -491,6 +669,18 @@ public final class Mess {
         result = result && (getId()
             == other.getId());
       }
+      result = result && getListIdList()
+          .equals(other.getListIdList());
+      result = result && (hasContent() == other.hasContent());
+      if (hasContent()) {
+        result = result && getContent()
+            .equals(other.getContent());
+      }
+      result = result && (hasFilename() == other.hasFilename());
+      if (hasFilename()) {
+        result = result && getFilename()
+            .equals(other.getFilename());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -512,8 +702,19 @@ public final class Mess {
       }
       if (hasId()) {
         hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getId());
+        hash = (53 * hash) + getId();
+      }
+      if (getListIdCount() > 0) {
+        hash = (37 * hash) + LIST_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getListIdList().hashCode();
+      }
+      if (hasContent()) {
+        hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+        hash = (53 * hash) + getContent().hashCode();
+      }
+      if (hasFilename()) {
+        hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+        hash = (53 * hash) + getFilename().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -652,8 +853,14 @@ public final class Mess {
         bitField0_ = (bitField0_ & ~0x00000001);
         mess_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = 0L;
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        content_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        filename_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -694,6 +901,19 @@ public final class Mess {
           to_bitField0_ |= 0x00000004;
         }
         result.id_ = id_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.listId_ = listId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.content_ = content_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.filename_ = filename_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -753,6 +973,24 @@ public final class Mess {
         }
         if (other.hasId()) {
           setId(other.getId());
+        }
+        if (!other.listId_.isEmpty()) {
+          if (listId_.isEmpty()) {
+            listId_ = other.listId_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureListIdIsMutable();
+            listId_.addAll(other.listId_);
+          }
+          onChanged();
+        }
+        if (other.hasContent()) {
+          setContent(other.getContent());
+        }
+        if (other.hasFilename()) {
+          bitField0_ |= 0x00000020;
+          filename_ = other.filename_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -924,13 +1162,13 @@ public final class Mess {
         return this;
       }
 
-      private long id_ ;
+      private int id_ ;
       /**
        * <pre>
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -940,9 +1178,9 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
-      public long getId() {
+      public int getId() {
         return id_;
       }
       /**
@@ -950,9 +1188,9 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
-      public Builder setId(long value) {
+      public Builder setId(int value) {
         bitField0_ |= 0x00000004;
         id_ = value;
         onChanged();
@@ -963,11 +1201,188 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        id_ = 0L;
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> listId_ = java.util.Collections.emptyList();
+      private void ensureListIdIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = new java.util.ArrayList<java.lang.Integer>(listId_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getListIdList() {
+        return java.util.Collections.unmodifiableList(listId_);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListIdCount() {
+        return listId_.size();
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListId(int index) {
+        return listId_.get(index);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder setListId(
+          int index, int value) {
+        ensureListIdIsMutable();
+        listId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addListId(int value) {
+        ensureListIdIsMutable();
+        listId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addAllListId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureListIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, listId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder clearListId() {
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public boolean hasContent() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public com.google.protobuf.ByteString getContent() {
+        return content_;
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public Builder setContent(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public Builder clearContent() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object filename_ = "";
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public boolean hasFilename() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            filename_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder clearFilename() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        filename_ = getDefaultInstance().getFilename();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        filename_ = value;
         onChanged();
         return this;
       }
@@ -1038,12 +1453,14 @@ public final class Mess {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nmess.proto\022\010protobuf\"\316\001\n\007Message\0222\n\004ty" +
+      "\n\nmess.proto\022\010protobuf\"\202\002\n\007Message\0222\n\004ty" +
       "pe\030\001 \002(\0162\035.protobuf.Message.MessageType:" +
-      "\005ERROR\022\014\n\004mess\030\002 \001(\t\022\n\n\002id\030\003 \001(\003\"u\n\013Mess" +
-      "ageType\022\t\n\005ERROR\020\000\022\010\n\004INFO\020\001\022\n\n\006SET_ID\020\002" +
-      "\022\013\n\007CONNECT\020\003\022\016\n\nDISCONNECT\020\004\022\017\n\013VIEW_SC" +
-      "REEN\020\n\022\r\n\tSEND_FILE\020\013\022\010\n\004CHAT\020\014B\006B\004Mess"
+      "\005ERROR\022\014\n\004mess\030\002 \001(\t\022\n\n\002id\030\003 \001(\005\022\017\n\007list" +
+      "_id\030\004 \003(\005\022\017\n\007content\030\005 \001(\014\022\020\n\010filename\030\006" +
+      " \001(\t\"u\n\013MessageType\022\t\n\005ERROR\020\000\022\010\n\004INFO\020\001" +
+      "\022\n\n\006SET_ID\020\002\022\013\n\007CONNECT\020\003\022\016\n\nDISCONNECT\020" +
+      "\004\022\017\n\013VIEW_SCREEN\020\n\022\r\n\tSEND_FILE\020\013\022\010\n\004CHA" +
+      "T\020\014B\006B\004Mess"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1062,7 +1479,7 @@ public final class Mess {
     internal_static_protobuf_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Message_descriptor,
-        new java.lang.String[] { "Type", "Mess", "Id", });
+        new java.lang.String[] { "Type", "Mess", "Id", "ListId", "Content", "Filename", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

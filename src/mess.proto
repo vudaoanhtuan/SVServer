@@ -25,4 +25,7 @@ message Message {
 
   // id for SET_ID, CONNECT
   optional int32 id = 3;
+  repeated int32 list_id = 4;
+  optional bytes content = 5;
+  optional string filename = 6;
 }
