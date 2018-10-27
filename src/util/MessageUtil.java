@@ -2,6 +2,7 @@ package util;
 
 import protobuf.Mess;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -40,13 +41,19 @@ public class MessageUtil {
     public static Mess.Message recvMessage(InputStream is) {
         Mess.Message mess = null;
         try {
-            while ((mess = Mess.Message.parseDelimitedFrom(is)) != null) {
-                return mess;
-            }
-        } catch (Exception e) {
+            mess = Mess.Message.parseDelimitedFrom(is);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return mess;
+//        try {
+//            while ((mess = Mess.Message.parseDelimitedFrom(is)) != null) {
+//                return mess;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
 
     }
 

@@ -1,6 +1,7 @@
 package server;
 
 import protobuf.Mess;
+import util.MessageUtil;
 
 import java.io.*;
 import java.net.Socket;
@@ -34,6 +35,34 @@ public class ClientThread implements Runnable {
         }
     }
 
+    @Override
+    public void run() {
+        // set ID when client connect and sent id to client
+        this.setIdForClient();
+
+        try {
+            while (true) {
+                Mess.Message mess = recvMessage(is);
+                if (mess == null) {
+                    break;
+                }
+                this.handleMessage(mess);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection();
+        }
+    }
+
+    public void closeConnection() {
+        System.out.println("Client disconnected");
+        Mess.Message mess = MessageUtil.buildInfoMess("User disconnected");
+        for (ClientThread client : clientConnected) {
+            MessageUtil.sendMessage(client.os, mess);
+        }
+    }
+
 
     public static int getRandomId() {
         return random.nextInt(MAX_ID);
@@ -46,25 +75,7 @@ public class ClientThread implements Runnable {
         Mess.Message mess = builder.build();
 
         try {
-            mess.writeDelimitedTo(this.os);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        // set ID when client connect and sent id to client
-        this.setIdForClient();
-
-        try {
-            while (true) {
-                Mess.Message mess = recvMessage(is);
-                if (mess != null) {
-                    this.handleMessage(mess);
-                }
-
-            }
+            MessageUtil.sendMessage(this.os, mess);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +83,7 @@ public class ClientThread implements Runnable {
 
     void handleMessage(Mess.Message mess) {
         if (mess.getType() == Mess.Message.MessageType.CONNECT) {
-            long id = mess.getId();
+            int id = mess.getId();
             synchronized (this) {
                 for (ClientThread client: listConnection) {
                     if (client.id == id) {
@@ -83,6 +94,10 @@ public class ClientThread implements Runnable {
 
                         Mess.Message resMessPartner = buildInfoMess("Connected from " + String.valueOf(this.id));
                         sendMessage(client.os, resMessPartner);
+
+                        Mess.Message resConnect = buildConnectMess(this.id);
+                        sendMessage(client.os, resConnect);
+
                         return;
                     }
                 }

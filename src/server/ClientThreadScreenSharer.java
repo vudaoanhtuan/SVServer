@@ -7,24 +7,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
-import java.util.Random;
 
-import static util.MessageUtil.*;
+import static util.MessageUtil.recvMessage;
 
-public class ClientThreadFileTransfer implements Runnable {
+public class ClientThreadScreenSharer implements Runnable {
     Socket socket;
     InputStream is;
     OutputStream os;
     int id;
     boolean running;
-//    ArrayList<ClientThreadFileTransfer> listConnection; // mutex
+    //    ArrayList<ClientThreadScreenSharer> listConnection; // mutex
     static Hashtable listConnection = new Hashtable();
 
 
-    public ClientThreadFileTransfer(Socket socketOfServer) {
+    public ClientThreadScreenSharer(Socket socketOfServer) {
         this.socket = socketOfServer;
         running = true;
         try {
@@ -60,7 +57,7 @@ public class ClientThreadFileTransfer implements Runnable {
             synchronized (this) {
                 for (int i=0; i<mess.getListIdCount(); i++) {
                     int id = mess.getListId(i);
-                    ClientThreadFileTransfer client = (ClientThreadFileTransfer) listConnection.get(id);
+                    ClientThreadScreenSharer client = (ClientThreadScreenSharer) listConnection.get(id);
                     if (client != null) {
                         MessageUtil.sendMessage(client.os, mess);
                     }
