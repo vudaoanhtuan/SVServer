@@ -36,12 +36,17 @@ public class ClientThreadScreenSharer implements Runnable {
     @Override
     public void run() {
         try {
-            Mess.Message mess = recvMessage(is);
-            if (mess != null) {
+            while (running) {
+                Mess.Message mess = recvMessage(is);
+                if (mess == null) {
+                    System.out.println("SreenSharerThread stop");
+                    running = false;
+                }
                 this.handleMessage(mess);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            running = false;
         }
     }
 
@@ -52,8 +57,7 @@ public class ClientThreadScreenSharer implements Runnable {
                 listConnection.put(mess.getId(), this);
             }
         }
-        if (mess.getType() == Mess.Message.MessageType.SEND_FILE) {
-            byte[] fileContent = mess.getContent().toByteArray();
+        if (mess.getType() == Mess.Message.MessageType.VIEW_SCREEN) {
             synchronized (this) {
                 for (int i=0; i<mess.getListIdCount(); i++) {
                     int id = mess.getListId(i);
@@ -61,21 +65,28 @@ public class ClientThreadScreenSharer implements Runnable {
                     if (client != null) {
                         MessageUtil.sendMessage(client.os, mess);
                     }
-                    // close connection of receiver client;
-                    try {
-                        client.socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // delete list connection
-                    listConnection.remove(id);
                 }
             }
-            // close this connection
-            try {
-                this.socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        }
+        if (mess.getType() == Mess.Message.MessageType.DISCONNECT) {
+            synchronized (this) {
+                for (int i=0; i<mess.getListIdCount(); i++) {
+                    int id = mess.getListId(i);
+                    ClientThreadScreenSharer client = (ClientThreadScreenSharer) listConnection.get(id);
+                    if (client != null) {
+                        try {
+                            client.socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        listConnection.remove(id);
+                    }
+                }
+                try {
+                    this.socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

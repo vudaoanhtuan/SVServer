@@ -1,19 +1,11 @@
 package client;
 
-import com.google.protobuf.ByteString;
 import protobuf.Mess;
 import util.MessageUtil;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
 
 public class Client implements Runnable {
     Socket socket, fileSocket;
@@ -22,7 +14,7 @@ public class Client implements Runnable {
     boolean status;
     int id, partnerId;
 
-    ScreenSharer ss;
+    ScreenSender ss;
 
     //    static String serverHost = "35.240.142.155";
     static String serverHost = "localhost";
@@ -95,39 +87,17 @@ public class Client implements Runnable {
     }
 
     void viewScreen() {
-        // send message to view screen
         Mess.Message vmess = Mess.Message.newBuilder().setType(Mess.Message.MessageType.VIEW_SCREEN).setId(id).build();
         MessageUtil.sendMessage(os, vmess);
 
-        JFrame frame = new JFrame();
-        ImagePanel panel = new ImagePanel();
-        frame.setResizable(true);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        try {
-            DatagramSocket socket = new DatagramSocket();
-            // setId
-            Mess.UDPMessage mess = Mess.UDPMessage.newBuilder().setId(this.id).setType(Mess.UDPMessage.MessageType.SET_ID).build();
-            byte[] idbuff = mess.toByteArray();
-            DatagramPacket idpacket = new DatagramPacket(idbuff, idbuff.length, address, 5002);
-            byte[] buff = new byte[5*1024*1024];
+        ScreenReceiver sr = new ScreenReceiver();
+        Thread t = new Thread(sr);
+        t.start();
+    }
 
-            while (true) {
-                Arrays.fill(buff, (byte) 0);
-                DatagramPacket packet = new DatagramPacket(buff, buff.length);
-                socket.receive(packet);
-                mess = Mess.UDPMessage.parseFrom(packet.getData());
-                byte[] imgbuff = mess.getImg().toByteArray();
-
-                InputStream is = new ByteArrayInputStream(imgbuff);
-                BufferedImage image = ImageIO.read(is);
-                panel.setImg(image);
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    void stopViewScreen() {
+        if (ss != null) {
+            ss.stop();
         }
     }
 
@@ -155,7 +125,7 @@ public class Client implements Runnable {
             this.partnerId = partnerId;
         }
         if (mess.getType() == Mess.Message.MessageType.VIEW_SCREEN) {
-            ss = new ScreenSharer(partnerId);
+            ss = new ScreenSender();
             try {
                 Thread t = new Thread(ss);
                 t.start();

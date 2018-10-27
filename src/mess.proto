@@ -33,9 +33,10 @@ message Message {
   repeated int32 list_id = 4;
   optional bytes content = 5;
   optional string filename = 6;
+  optional bytes img = 7;
 
   // answer
-  optional AnswerType answer = 7;
+  optional AnswerType answer = 8;
 }
 
 message UDPMessage {

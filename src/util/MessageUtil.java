@@ -58,7 +58,7 @@ public class MessageUtil {
     }
 
     // this method send message back to sender
-    public static int sendMessage(OutputStream os, Mess.Message mess) {
+    public static int sendMessage(OutputStream os, Mess.Message mess)  {
         try {
             mess.writeDelimitedTo(os);
         } catch (Exception e) {

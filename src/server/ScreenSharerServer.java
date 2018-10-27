@@ -1,18 +1,14 @@
 package server;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import javafx.util.Pair;
-import protobuf.Mess;
-
-import java.net.*;
-import java.util.Hashtable;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class ScreenSharerServer {
     int port;
-    boolean status;
-    DatagramSocket socket;
-    byte[] buffer = new byte[5*1024*1024];
-    Hashtable<Integer, Pair<InetAddress, Integer>> h = new Hashtable<Integer, Pair<InetAddress, Integer>>();
+    boolean running;
+    ServerSocket listener;
+
 
     public static void main(String[] args) {
         ScreenSharerServer server = new ScreenSharerServer(5002);
@@ -21,9 +17,10 @@ public class ScreenSharerServer {
 
     public ScreenSharerServer(int port) {
         this.port = port;
+
         try {
-            socket = new DatagramSocket(port);
-            status = true;
+            listener = new ServerSocket(port);
+            running = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,53 +28,23 @@ public class ScreenSharerServer {
 
     public void run() {
         try {
-            while (status) {
-                // receive packet from client
-                DatagramPacket recvPacket = new DatagramPacket(buffer, buffer.length);
-                socket.receive(recvPacket);
-                handlePacket(recvPacket);
+            while (running) {
+                Socket clientSocket = listener.accept();
+                System.out.println("New connection from " + clientSocket.getInetAddress().toString() + ":" + clientSocket.getPort());
+                System.out.println("Total connection: " + ClientThreadScreenSharer.listConnection.size());
+                ClientThreadScreenSharer client = new ClientThreadScreenSharer(clientSocket);
+                Thread thread = new Thread(client);
+                thread.start();
             }
         } catch (Exception e) {
             System.out.println("Server stoped");
         } finally {
             try {
-                socket.close();
+                listener.close();
             } catch (Exception e) {
 
             }
         }
     }
 
-    void handlePacket(DatagramPacket packet) {
-        try {
-            Mess.UDPMessage mess = Mess.UDPMessage.parseFrom(packet.getData());
-            if (mess.getType() == Mess.UDPMessage.MessageType.SET_ID) {
-                InetAddress address = packet.getAddress();
-                int port = packet.getPort();
-                int id = mess.getId();
-                Pair<InetAddress, Integer> p = new Pair<InetAddress, Integer>(address, port);
-                h.put(id, p);
-                System.out.println("Set ID: " + id);
-            }
-            if (mess.getType() == Mess.UDPMessage.MessageType.SCREEN) {
-                for (Integer i: mess.getListIdList()) {
-                    Pair<InetAddress, Integer> p = h.get(i);
-                    if (p != null) {
-                        InetAddress address = p.getKey();
-                        int port = p.getValue();
-                        packet.setAddress(address);
-                        packet.setPort(port);
-                        socket.send(packet);
-                    }
-                }
-            }
-            if (mess.getType() == Mess.UDPMessage.MessageType.DISCONNECT) {
-                int id = mess.getId();
-                h.remove(id);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

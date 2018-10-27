@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
     private JButton browseButton;
     private JButton sendFileButton;
     private JButton viewScreenButton;
+    private JButton stopButton;
 
 
     void setupID(int id) {
@@ -124,6 +125,13 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.client.viewScreen();
+            }
+        });
+
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.client.stopViewScreen();
             }
         });
     }

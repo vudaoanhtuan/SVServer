@@ -107,11 +107,20 @@ public final class Mess {
         getFilenameBytes();
 
     /**
+     * <code>optional bytes img = 7;</code>
+     */
+    boolean hasImg();
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    com.google.protobuf.ByteString getImg();
+
+    /**
      * <pre>
      * answer
      * </pre>
      *
-     * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
      */
     boolean hasAnswer();
     /**
@@ -119,7 +128,7 @@ public final class Mess {
      * answer
      * </pre>
      *
-     * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
      */
     protobuf.Mess.Message.AnswerType getAnswer();
   }
@@ -142,6 +151,7 @@ public final class Mess {
       listId_ = java.util.Collections.emptyList();
       content_ = com.google.protobuf.ByteString.EMPTY;
       filename_ = "";
+      img_ = com.google.protobuf.ByteString.EMPTY;
       answer_ = 0;
     }
 
@@ -224,14 +234,19 @@ public final class Mess {
               filename_ = bs;
               break;
             }
-            case 56: {
+            case 58: {
+              bitField0_ |= 0x00000020;
+              img_ = input.readBytes();
+              break;
+            }
+            case 64: {
               int rawValue = input.readEnum();
                 @SuppressWarnings("deprecation")
               protobuf.Mess.Message.AnswerType value = protobuf.Mess.Message.AnswerType.valueOf(rawValue);
               if (value == null) {
-                unknownFields.mergeVarintField(7, rawValue);
+                unknownFields.mergeVarintField(8, rawValue);
               } else {
-                bitField0_ |= 0x00000020;
+                bitField0_ |= 0x00000040;
                 answer_ = rawValue;
               }
               break;
@@ -687,24 +702,39 @@ public final class Mess {
       }
     }
 
-    public static final int ANSWER_FIELD_NUMBER = 7;
+    public static final int IMG_FIELD_NUMBER = 7;
+    private com.google.protobuf.ByteString img_;
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    public boolean hasImg() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    public com.google.protobuf.ByteString getImg() {
+      return img_;
+    }
+
+    public static final int ANSWER_FIELD_NUMBER = 8;
     private int answer_;
     /**
      * <pre>
      * answer
      * </pre>
      *
-     * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
      */
     public boolean hasAnswer() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <pre>
      * answer
      * </pre>
      *
-     * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
      */
     public protobuf.Mess.Message.AnswerType getAnswer() {
       @SuppressWarnings("deprecation")
@@ -749,7 +779,10 @@ public final class Mess {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, filename_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeEnum(7, answer_);
+        output.writeBytes(7, img_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeEnum(8, answer_);
       }
       unknownFields.writeTo(output);
     }
@@ -789,7 +822,11 @@ public final class Mess {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(7, answer_);
+          .computeBytesSize(7, img_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(8, answer_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -833,6 +870,11 @@ public final class Mess {
         result = result && getFilename()
             .equals(other.getFilename());
       }
+      result = result && (hasImg() == other.hasImg());
+      if (hasImg()) {
+        result = result && getImg()
+            .equals(other.getImg());
+      }
       result = result && (hasAnswer() == other.hasAnswer());
       if (hasAnswer()) {
         result = result && answer_ == other.answer_;
@@ -871,6 +913,10 @@ public final class Mess {
       if (hasFilename()) {
         hash = (37 * hash) + FILENAME_FIELD_NUMBER;
         hash = (53 * hash) + getFilename().hashCode();
+      }
+      if (hasImg()) {
+        hash = (37 * hash) + IMG_FIELD_NUMBER;
+        hash = (53 * hash) + getImg().hashCode();
       }
       if (hasAnswer()) {
         hash = (37 * hash) + ANSWER_FIELD_NUMBER;
@@ -1021,8 +1067,10 @@ public final class Mess {
         bitField0_ = (bitField0_ & ~0x00000010);
         filename_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
-        answer_ = 0;
+        img_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
+        answer_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -1078,6 +1126,10 @@ public final class Mess {
         result.filename_ = filename_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
+        }
+        result.img_ = img_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.answer_ = answer_;
         result.bitField0_ = to_bitField0_;
@@ -1157,6 +1209,9 @@ public final class Mess {
           bitField0_ |= 0x00000020;
           filename_ = other.filename_;
           onChanged();
+        }
+        if (other.hasImg()) {
+          setImg(other.getImg());
         }
         if (other.hasAnswer()) {
           setAnswer(other.getAnswer());
@@ -1556,23 +1611,58 @@ public final class Mess {
         return this;
       }
 
+      private com.google.protobuf.ByteString img_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public boolean hasImg() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public com.google.protobuf.ByteString getImg() {
+        return img_;
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public Builder setImg(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        img_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public Builder clearImg() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        img_ = getDefaultInstance().getImg();
+        onChanged();
+        return this;
+      }
+
       private int answer_ = 0;
       /**
        * <pre>
        * answer
        * </pre>
        *
-       * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
        */
       public boolean hasAnswer() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <pre>
        * answer
        * </pre>
        *
-       * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
        */
       public protobuf.Mess.Message.AnswerType getAnswer() {
         @SuppressWarnings("deprecation")
@@ -1584,13 +1674,13 @@ public final class Mess {
        * answer
        * </pre>
        *
-       * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
        */
       public Builder setAnswer(protobuf.Mess.Message.AnswerType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         answer_ = value.getNumber();
         onChanged();
         return this;
@@ -1600,10 +1690,10 @@ public final class Mess {
        * answer
        * </pre>
        *
-       * <code>optional .protobuf.Message.AnswerType answer = 7;</code>
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
        */
       public Builder clearAnswer() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         answer_ = 0;
         onChanged();
         return this;
@@ -2642,20 +2732,20 @@ public final class Mess {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nmess.proto\022\010protobuf\"\317\002\n\007Message\0222\n\004ty" +
+      "\n\nmess.proto\022\010protobuf\"\334\002\n\007Message\0222\n\004ty" +
       "pe\030\001 \002(\0162\035.protobuf.Message.MessageType:" +
       "\005ERROR\022\014\n\004mess\030\002 \001(\t\022\n\n\002id\030\003 \001(\005\022\017\n\007list" +
       "_id\030\004 \003(\005\022\017\n\007content\030\005 \001(\014\022\020\n\010filename\030\006" +
-      " \001(\t\022,\n\006answer\030\007 \001(\0162\034.protobuf.Message." +
-      "AnswerType\"u\n\013MessageType\022\t\n\005ERROR\020\000\022\010\n\004" +
-      "INFO\020\001\022\n\n\006SET_ID\020\002\022\013\n\007CONNECT\020\003\022\016\n\nDISCO" +
-      "NNECT\020\004\022\017\n\013VIEW_SCREEN\020\n\022\r\n\tSEND_FILE\020\013\022" +
-      "\010\n\004CHAT\020\014\"\035\n\nAnswerType\022\006\n\002NO\020\000\022\007\n\003YES\020\001" +
-      "\"\245\001\n\nUDPMessage\0226\n\004type\030\001 \002(\0162 .protobuf" +
-      ".UDPMessage.MessageType:\006SCREEN\022\013\n\003img\030\002" +
-      " \001(\014\022\n\n\002id\030\003 \001(\005\022\017\n\007list_id\030\004 \003(\005\"5\n\013Mes" +
-      "sageType\022\n\n\006SET_ID\020\000\022\n\n\006SCREEN\020\001\022\016\n\nDISC" +
-      "ONNECT\020\002B\006B\004Mess"
+      " \001(\t\022\013\n\003img\030\007 \001(\014\022,\n\006answer\030\010 \001(\0162\034.prot" +
+      "obuf.Message.AnswerType\"u\n\013MessageType\022\t" +
+      "\n\005ERROR\020\000\022\010\n\004INFO\020\001\022\n\n\006SET_ID\020\002\022\013\n\007CONNE" +
+      "CT\020\003\022\016\n\nDISCONNECT\020\004\022\017\n\013VIEW_SCREEN\020\n\022\r\n" +
+      "\tSEND_FILE\020\013\022\010\n\004CHAT\020\014\"\035\n\nAnswerType\022\006\n\002" +
+      "NO\020\000\022\007\n\003YES\020\001\"\245\001\n\nUDPMessage\0226\n\004type\030\001 \002" +
+      "(\0162 .protobuf.UDPMessage.MessageType:\006SC" +
+      "REEN\022\013\n\003img\030\002 \001(\014\022\n\n\002id\030\003 \001(\005\022\017\n\007list_id" +
+      "\030\004 \003(\005\"5\n\013MessageType\022\n\n\006SET_ID\020\000\022\n\n\006SCR" +
+      "EEN\020\001\022\016\n\nDISCONNECT\020\002B\006B\004Mess"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2674,7 +2764,7 @@ public final class Mess {
     internal_static_protobuf_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Message_descriptor,
-        new java.lang.String[] { "Type", "Mess", "Id", "ListId", "Content", "Filename", "Answer", });
+        new java.lang.String[] { "Type", "Mess", "Id", "ListId", "Content", "Filename", "Img", "Answer", });
     internal_static_protobuf_UDPMessage_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_protobuf_UDPMessage_fieldAccessorTable = new

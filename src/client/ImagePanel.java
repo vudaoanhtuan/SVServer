@@ -12,7 +12,7 @@ public class ImagePanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(200, 200);
+        return new Dimension(800, 600);
     }
 
 
@@ -32,6 +32,7 @@ public class ImagePanel extends JPanel {
 
     public void setImg(BufferedImage img) {
         this.img = img;
+        this.repaint();
     }
 
 
