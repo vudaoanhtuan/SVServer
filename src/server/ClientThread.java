@@ -142,6 +142,14 @@ public class ClientThread implements Runnable {
             }
         }
 
+        if (mess.getType() == Mess.Message.MessageType.VIEW_SCREEN) {
+            synchronized (this) {
+                for (ClientThread client : clientConnected) {
+                    sendMessage(client.os, mess);
+                }
+            }
+        }
+
 
     }
 }

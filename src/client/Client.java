@@ -4,9 +4,16 @@ import com.google.protobuf.ByteString;
 import protobuf.Mess;
 import util.MessageUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Client implements Runnable {
     Socket socket, fileSocket;
@@ -15,13 +22,21 @@ public class Client implements Runnable {
     boolean status;
     int id, partnerId;
 
-//    static String serverHost = "35.240.142.155";
+    ScreenSharer ss;
+
+    //    static String serverHost = "35.240.142.155";
     static String serverHost = "localhost";
+    static InetAddress address;
 
     public Client() {
         status = true;
         createConnection();
         setID();
+        try {
+            address = InetAddress.getByName(serverHost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getPartnerId() {
@@ -79,6 +94,43 @@ public class Client implements Runnable {
         MessageUtil.sendMessage(os, mess);
     }
 
+    void viewScreen() {
+        // send message to view screen
+        Mess.Message vmess = Mess.Message.newBuilder().setType(Mess.Message.MessageType.VIEW_SCREEN).setId(id).build();
+        MessageUtil.sendMessage(os, vmess);
+
+        JFrame frame = new JFrame();
+        ImagePanel panel = new ImagePanel();
+        frame.setResizable(true);
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            // setId
+            Mess.UDPMessage mess = Mess.UDPMessage.newBuilder().setId(this.id).setType(Mess.UDPMessage.MessageType.SET_ID).build();
+            byte[] idbuff = mess.toByteArray();
+            DatagramPacket idpacket = new DatagramPacket(idbuff, idbuff.length, address, 5002);
+            byte[] buff = new byte[5*1024*1024];
+
+            while (true) {
+                Arrays.fill(buff, (byte) 0);
+                DatagramPacket packet = new DatagramPacket(buff, buff.length);
+                socket.receive(packet);
+                mess = Mess.UDPMessage.parseFrom(packet.getData());
+                byte[] imgbuff = mess.getImg().toByteArray();
+
+                InputStream is = new ByteArrayInputStream(imgbuff);
+                BufferedImage image = ImageIO.read(is);
+                panel.setImg(image);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void handleMessage(Mess.Message mess) {
         if (mess.getType() == Mess.Message.MessageType.CHAT) {
             Main.mainWindow.logMess(mess.getId(), mess.getMess());
@@ -101,6 +153,15 @@ public class Client implements Runnable {
         if (mess.getType() == Mess.Message.MessageType.CONNECT) {
             int partnerId = mess.getId();
             this.partnerId = partnerId;
+        }
+        if (mess.getType() == Mess.Message.MessageType.VIEW_SCREEN) {
+            ss = new ScreenSharer(partnerId);
+            try {
+                Thread t = new Thread(ss);
+                t.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

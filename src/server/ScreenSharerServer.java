@@ -15,7 +15,7 @@ public class ScreenSharerServer {
     Hashtable<Integer, Pair<InetAddress, Integer>> h = new Hashtable<Integer, Pair<InetAddress, Integer>>();
 
     public static void main(String[] args) {
-        ScreenSharerServer server = new ScreenSharerServer(5001);
+        ScreenSharerServer server = new ScreenSharerServer(5002);
         server.run();
     }
 
@@ -57,6 +57,7 @@ public class ScreenSharerServer {
                 int id = mess.getId();
                 Pair<InetAddress, Integer> p = new Pair<InetAddress, Integer>(address, port);
                 h.put(id, p);
+                System.out.println("Set ID: " + id);
             }
             if (mess.getType() == Mess.UDPMessage.MessageType.SCREEN) {
                 for (Integer i: mess.getListIdList()) {

@@ -27,6 +27,7 @@ public class MainWindow extends JFrame {
     private JTextField filepathTextField;
     private JButton browseButton;
     private JButton sendFileButton;
+    private JButton viewScreenButton;
 
 
     void setupID(int id) {
@@ -116,6 +117,13 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String filepath = filepathTextField.getText();
                 Main.client.sendFile(filepath);
+            }
+        });
+
+        viewScreenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.client.viewScreen();
             }
         });
     }

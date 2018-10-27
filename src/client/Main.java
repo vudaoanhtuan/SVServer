@@ -5,6 +5,7 @@ import javax.swing.*;
 public class Main {
     public static MainWindow mainWindow;
     public static Client client;
+    public static JFrame screen;
 
     public static void main(String[] args) {
         createUI();
