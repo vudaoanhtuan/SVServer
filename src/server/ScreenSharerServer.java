@@ -4,24 +4,23 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server {
-    ArrayList<ClientThread> listConnection;
+public class ScreenSharerServer {
     int port;
-    boolean status;
+    boolean running;
     ServerSocket listener;
 
+
     public static void main(String[] args) {
-        Server server = new Server(5000);
+        ScreenSharerServer server = new ScreenSharerServer(5002);
         server.run();
     }
 
-    public Server(int port) {
+    public ScreenSharerServer(int port) {
         this.port = port;
 
         try {
             listener = new ServerSocket(port);
-            status = true;
-            listConnection = new ArrayList<ClientThread>();
+            running = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,11 +28,12 @@ public class Server {
 
     public void run() {
         try {
-            while (status) {
-                Socket client = listener.accept();
-                ClientThread service = new ClientThread(client, listConnection);
-                listConnection.add(service);
-                Thread thread = new Thread(service);
+            while (running) {
+                Socket clientSocket = listener.accept();
+                System.out.println("New connection from " + clientSocket.getInetAddress().toString() + ":" + clientSocket.getPort());
+                System.out.println("Total connection: " + ClientThreadScreenSharer.listConnection.size());
+                ClientThreadScreenSharer client = new ClientThreadScreenSharer(clientSocket);
+                Thread thread = new Thread(client);
                 thread.start();
             }
         } catch (Exception e) {
@@ -46,4 +46,5 @@ public class Server {
             }
         }
     }
+
 }

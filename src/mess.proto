@@ -18,6 +18,11 @@ message Message {
     CHAT = 12;
   }
 
+  enum AnswerType {
+    NO = 0;
+    YES = 1;
+  }
+
   required MessageType type = 1 [default = ERROR];
 
   // mess for CHAT
@@ -25,4 +30,25 @@ message Message {
 
   // id for SET_ID, CONNECT
   optional int32 id = 3;
+  repeated int32 list_id = 4;
+  optional bytes content = 5;
+  optional string filename = 6;
+  optional bytes img = 7;
+
+  // answer
+  optional AnswerType answer = 8;
+}
+
+message UDPMessage {
+  enum MessageType {
+    SET_ID = 0;
+    SCREEN = 1;
+    DISCONNECT = 2;
+  }
+
+  required MessageType type = 1 [default = SCREEN];
+  optional bytes img = 2;
+  optional int32 id = 3;
+  repeated int32 list_id = 4;
+
 }

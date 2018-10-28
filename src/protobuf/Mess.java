@@ -58,7 +58,7 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
     boolean hasId();
     /**
@@ -66,9 +66,71 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
-    long getId();
+    int getId();
+
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    java.util.List<java.lang.Integer> getListIdList();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListIdCount();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListId(int index);
+
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    boolean hasContent();
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    com.google.protobuf.ByteString getContent();
+
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    boolean hasFilename();
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    java.lang.String getFilename();
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
+
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    boolean hasImg();
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    com.google.protobuf.ByteString getImg();
+
+    /**
+     * <pre>
+     * answer
+     * </pre>
+     *
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+     */
+    boolean hasAnswer();
+    /**
+     * <pre>
+     * answer
+     * </pre>
+     *
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+     */
+    protobuf.Mess.Message.AnswerType getAnswer();
   }
   /**
    * Protobuf type {@code protobuf.Message}
@@ -85,7 +147,12 @@ public final class Mess {
     private Message() {
       type_ = 0;
       mess_ = "";
-      id_ = 0L;
+      id_ = 0;
+      listId_ = java.util.Collections.emptyList();
+      content_ = com.google.protobuf.ByteString.EMPTY;
+      filename_ = "";
+      img_ = com.google.protobuf.ByteString.EMPTY;
+      answer_ = 0;
     }
 
     @java.lang.Override
@@ -132,7 +199,56 @@ public final class Mess {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              id_ = input.readInt64();
+              id_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              listId_.add(input.readInt32());
+              break;
+            }
+            case 34: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008) && input.getBytesUntilLimit() > 0) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                listId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              content_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              filename_ = bs;
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000020;
+              img_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protobuf.Mess.Message.AnswerType value = protobuf.Mess.Message.AnswerType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(8, rawValue);
+              } else {
+                bitField0_ |= 0x00000040;
+                answer_ = rawValue;
+              }
               break;
             }
             default: {
@@ -150,6 +266,9 @@ public final class Mess {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -319,6 +438,96 @@ public final class Mess {
       // @@protoc_insertion_point(enum_scope:protobuf.Message.MessageType)
     }
 
+    /**
+     * Protobuf enum {@code protobuf.Message.AnswerType}
+     */
+    public enum AnswerType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>NO = 0;</code>
+       */
+      NO(0),
+      /**
+       * <code>YES = 1;</code>
+       */
+      YES(1),
+      ;
+
+      /**
+       * <code>NO = 0;</code>
+       */
+      public static final int NO_VALUE = 0;
+      /**
+       * <code>YES = 1;</code>
+       */
+      public static final int YES_VALUE = 1;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static AnswerType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static AnswerType forNumber(int value) {
+        switch (value) {
+          case 0: return NO;
+          case 1: return YES;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<AnswerType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          AnswerType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<AnswerType>() {
+              public AnswerType findValueByNumber(int number) {
+                return AnswerType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return protobuf.Mess.Message.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final AnswerType[] VALUES = values();
+
+      public static AnswerType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private AnswerType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:protobuf.Message.AnswerType)
+    }
+
     private int bitField0_;
     public static final int TYPE_FIELD_NUMBER = 1;
     private int type_;
@@ -392,13 +601,13 @@ public final class Mess {
     }
 
     public static final int ID_FIELD_NUMBER = 3;
-    private long id_;
+    private int id_;
     /**
      * <pre>
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -408,10 +617,129 @@ public final class Mess {
      * id for SET_ID, CONNECT
      * </pre>
      *
-     * <code>optional int64 id = 3;</code>
+     * <code>optional int32 id = 3;</code>
      */
-    public long getId() {
+    public int getId() {
       return id_;
+    }
+
+    public static final int LIST_ID_FIELD_NUMBER = 4;
+    private java.util.List<java.lang.Integer> listId_;
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getListIdList() {
+      return listId_;
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListIdCount() {
+      return listId_.size();
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListId(int index) {
+      return listId_.get(index);
+    }
+
+    public static final int CONTENT_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString content_;
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    public boolean hasContent() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes content = 5;</code>
+     */
+    public com.google.protobuf.ByteString getContent() {
+      return content_;
+    }
+
+    public static final int FILENAME_FIELD_NUMBER = 6;
+    private volatile java.lang.Object filename_;
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public boolean hasFilename() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          filename_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string filename = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IMG_FIELD_NUMBER = 7;
+    private com.google.protobuf.ByteString img_;
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    public boolean hasImg() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional bytes img = 7;</code>
+     */
+    public com.google.protobuf.ByteString getImg() {
+      return img_;
+    }
+
+    public static final int ANSWER_FIELD_NUMBER = 8;
+    private int answer_;
+    /**
+     * <pre>
+     * answer
+     * </pre>
+     *
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+     */
+    public boolean hasAnswer() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <pre>
+     * answer
+     * </pre>
+     *
+     * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+     */
+    public protobuf.Mess.Message.AnswerType getAnswer() {
+      @SuppressWarnings("deprecation")
+      protobuf.Mess.Message.AnswerType result = protobuf.Mess.Message.AnswerType.valueOf(answer_);
+      return result == null ? protobuf.Mess.Message.AnswerType.NO : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -439,7 +767,22 @@ public final class Mess {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, mess_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, id_);
+        output.writeInt32(3, id_);
+      }
+      for (int i = 0; i < listId_.size(); i++) {
+        output.writeInt32(4, listId_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, content_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, filename_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(7, img_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeEnum(8, answer_);
       }
       unknownFields.writeTo(output);
     }
@@ -459,7 +802,31 @@ public final class Mess {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, id_);
+          .computeInt32Size(3, id_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < listId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(listId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getListIdList().size();
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, content_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, filename_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, img_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(8, answer_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -491,6 +858,27 @@ public final class Mess {
         result = result && (getId()
             == other.getId());
       }
+      result = result && getListIdList()
+          .equals(other.getListIdList());
+      result = result && (hasContent() == other.hasContent());
+      if (hasContent()) {
+        result = result && getContent()
+            .equals(other.getContent());
+      }
+      result = result && (hasFilename() == other.hasFilename());
+      if (hasFilename()) {
+        result = result && getFilename()
+            .equals(other.getFilename());
+      }
+      result = result && (hasImg() == other.hasImg());
+      if (hasImg()) {
+        result = result && getImg()
+            .equals(other.getImg());
+      }
+      result = result && (hasAnswer() == other.hasAnswer());
+      if (hasAnswer()) {
+        result = result && answer_ == other.answer_;
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -512,8 +900,27 @@ public final class Mess {
       }
       if (hasId()) {
         hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getId());
+        hash = (53 * hash) + getId();
+      }
+      if (getListIdCount() > 0) {
+        hash = (37 * hash) + LIST_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getListIdList().hashCode();
+      }
+      if (hasContent()) {
+        hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+        hash = (53 * hash) + getContent().hashCode();
+      }
+      if (hasFilename()) {
+        hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+        hash = (53 * hash) + getFilename().hashCode();
+      }
+      if (hasImg()) {
+        hash = (37 * hash) + IMG_FIELD_NUMBER;
+        hash = (53 * hash) + getImg().hashCode();
+      }
+      if (hasAnswer()) {
+        hash = (37 * hash) + ANSWER_FIELD_NUMBER;
+        hash = (53 * hash) + answer_;
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -652,8 +1059,18 @@ public final class Mess {
         bitField0_ = (bitField0_ & ~0x00000001);
         mess_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = 0L;
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        content_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        filename_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        img_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        answer_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -694,6 +1111,27 @@ public final class Mess {
           to_bitField0_ |= 0x00000004;
         }
         result.id_ = id_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.listId_ = listId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.content_ = content_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.filename_ = filename_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.img_ = img_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.answer_ = answer_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -753,6 +1191,30 @@ public final class Mess {
         }
         if (other.hasId()) {
           setId(other.getId());
+        }
+        if (!other.listId_.isEmpty()) {
+          if (listId_.isEmpty()) {
+            listId_ = other.listId_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureListIdIsMutable();
+            listId_.addAll(other.listId_);
+          }
+          onChanged();
+        }
+        if (other.hasContent()) {
+          setContent(other.getContent());
+        }
+        if (other.hasFilename()) {
+          bitField0_ |= 0x00000020;
+          filename_ = other.filename_;
+          onChanged();
+        }
+        if (other.hasImg()) {
+          setImg(other.getImg());
+        }
+        if (other.hasAnswer()) {
+          setAnswer(other.getAnswer());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -924,13 +1386,13 @@ public final class Mess {
         return this;
       }
 
-      private long id_ ;
+      private int id_ ;
       /**
        * <pre>
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -940,9 +1402,9 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
-      public long getId() {
+      public int getId() {
         return id_;
       }
       /**
@@ -950,9 +1412,9 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
-      public Builder setId(long value) {
+      public Builder setId(int value) {
         bitField0_ |= 0x00000004;
         id_ = value;
         onChanged();
@@ -963,11 +1425,276 @@ public final class Mess {
        * id for SET_ID, CONNECT
        * </pre>
        *
-       * <code>optional int64 id = 3;</code>
+       * <code>optional int32 id = 3;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        id_ = 0L;
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> listId_ = java.util.Collections.emptyList();
+      private void ensureListIdIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = new java.util.ArrayList<java.lang.Integer>(listId_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getListIdList() {
+        return java.util.Collections.unmodifiableList(listId_);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListIdCount() {
+        return listId_.size();
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListId(int index) {
+        return listId_.get(index);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder setListId(
+          int index, int value) {
+        ensureListIdIsMutable();
+        listId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addListId(int value) {
+        ensureListIdIsMutable();
+        listId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addAllListId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureListIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, listId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder clearListId() {
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public boolean hasContent() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public com.google.protobuf.ByteString getContent() {
+        return content_;
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public Builder setContent(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes content = 5;</code>
+       */
+      public Builder clearContent() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object filename_ = "";
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public boolean hasFilename() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            filename_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder clearFilename() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        filename_ = getDefaultInstance().getFilename();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string filename = 6;</code>
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString img_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public boolean hasImg() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public com.google.protobuf.ByteString getImg() {
+        return img_;
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public Builder setImg(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        img_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes img = 7;</code>
+       */
+      public Builder clearImg() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        img_ = getDefaultInstance().getImg();
+        onChanged();
+        return this;
+      }
+
+      private int answer_ = 0;
+      /**
+       * <pre>
+       * answer
+       * </pre>
+       *
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+       */
+      public boolean hasAnswer() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <pre>
+       * answer
+       * </pre>
+       *
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+       */
+      public protobuf.Mess.Message.AnswerType getAnswer() {
+        @SuppressWarnings("deprecation")
+        protobuf.Mess.Message.AnswerType result = protobuf.Mess.Message.AnswerType.valueOf(answer_);
+        return result == null ? protobuf.Mess.Message.AnswerType.NO : result;
+      }
+      /**
+       * <pre>
+       * answer
+       * </pre>
+       *
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+       */
+      public Builder setAnswer(protobuf.Mess.Message.AnswerType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000080;
+        answer_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * answer
+       * </pre>
+       *
+       * <code>optional .protobuf.Message.AnswerType answer = 8;</code>
+       */
+      public Builder clearAnswer() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        answer_ = 0;
         onChanged();
         return this;
       }
@@ -1024,11 +1751,978 @@ public final class Mess {
 
   }
 
+  public interface UDPMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.UDPMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+     */
+    protobuf.Mess.UDPMessage.MessageType getType();
+
+    /**
+     * <code>optional bytes img = 2;</code>
+     */
+    boolean hasImg();
+    /**
+     * <code>optional bytes img = 2;</code>
+     */
+    com.google.protobuf.ByteString getImg();
+
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    int getId();
+
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    java.util.List<java.lang.Integer> getListIdList();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListIdCount();
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    int getListId(int index);
+  }
+  /**
+   * Protobuf type {@code protobuf.UDPMessage}
+   */
+  public  static final class UDPMessage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protobuf.UDPMessage)
+      UDPMessageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UDPMessage.newBuilder() to construct.
+    private UDPMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UDPMessage() {
+      type_ = 1;
+      img_ = com.google.protobuf.ByteString.EMPTY;
+      id_ = 0;
+      listId_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UDPMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              protobuf.Mess.UDPMessage.MessageType value = protobuf.Mess.UDPMessage.MessageType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = rawValue;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              img_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              id_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              listId_.add(input.readInt32());
+              break;
+            }
+            case 34: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008) && input.getBytesUntilLimit() > 0) {
+                listId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                listId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protobuf.Mess.internal_static_protobuf_UDPMessage_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protobuf.Mess.internal_static_protobuf_UDPMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protobuf.Mess.UDPMessage.class, protobuf.Mess.UDPMessage.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code protobuf.UDPMessage.MessageType}
+     */
+    public enum MessageType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>SET_ID = 0;</code>
+       */
+      SET_ID(0),
+      /**
+       * <code>SCREEN = 1;</code>
+       */
+      SCREEN(1),
+      /**
+       * <code>DISCONNECT = 2;</code>
+       */
+      DISCONNECT(2),
+      ;
+
+      /**
+       * <code>SET_ID = 0;</code>
+       */
+      public static final int SET_ID_VALUE = 0;
+      /**
+       * <code>SCREEN = 1;</code>
+       */
+      public static final int SCREEN_VALUE = 1;
+      /**
+       * <code>DISCONNECT = 2;</code>
+       */
+      public static final int DISCONNECT_VALUE = 2;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessageType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageType forNumber(int value) {
+        switch (value) {
+          case 0: return SET_ID;
+          case 1: return SCREEN;
+          case 2: return DISCONNECT;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<MessageType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          MessageType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<MessageType>() {
+              public MessageType findValueByNumber(int number) {
+                return MessageType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return protobuf.Mess.UDPMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final MessageType[] VALUES = values();
+
+      public static MessageType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private MessageType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:protobuf.UDPMessage.MessageType)
+    }
+
+    private int bitField0_;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+     */
+    public protobuf.Mess.UDPMessage.MessageType getType() {
+      @SuppressWarnings("deprecation")
+      protobuf.Mess.UDPMessage.MessageType result = protobuf.Mess.UDPMessage.MessageType.valueOf(type_);
+      return result == null ? protobuf.Mess.UDPMessage.MessageType.SCREEN : result;
+    }
+
+    public static final int IMG_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString img_;
+    /**
+     * <code>optional bytes img = 2;</code>
+     */
+    public boolean hasImg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes img = 2;</code>
+     */
+    public com.google.protobuf.ByteString getImg() {
+      return img_;
+    }
+
+    public static final int ID_FIELD_NUMBER = 3;
+    private int id_;
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 id = 3;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int LIST_ID_FIELD_NUMBER = 4;
+    private java.util.List<java.lang.Integer> listId_;
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getListIdList() {
+      return listId_;
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListIdCount() {
+      return listId_.size();
+    }
+    /**
+     * <code>repeated int32 list_id = 4;</code>
+     */
+    public int getListId(int index) {
+      return listId_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, img_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, id_);
+      }
+      for (int i = 0; i < listId_.size(); i++) {
+        output.writeInt32(4, listId_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, img_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, id_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < listId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(listId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getListIdList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protobuf.Mess.UDPMessage)) {
+        return super.equals(obj);
+      }
+      protobuf.Mess.UDPMessage other = (protobuf.Mess.UDPMessage) obj;
+
+      boolean result = true;
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && type_ == other.type_;
+      }
+      result = result && (hasImg() == other.hasImg());
+      if (hasImg()) {
+        result = result && getImg()
+            .equals(other.getImg());
+      }
+      result = result && (hasId() == other.hasId());
+      if (hasId()) {
+        result = result && (getId()
+            == other.getId());
+      }
+      result = result && getListIdList()
+          .equals(other.getListIdList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + type_;
+      }
+      if (hasImg()) {
+        hash = (37 * hash) + IMG_FIELD_NUMBER;
+        hash = (53 * hash) + getImg().hashCode();
+      }
+      if (hasId()) {
+        hash = (37 * hash) + ID_FIELD_NUMBER;
+        hash = (53 * hash) + getId();
+      }
+      if (getListIdCount() > 0) {
+        hash = (37 * hash) + LIST_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getListIdList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protobuf.Mess.UDPMessage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.Mess.UDPMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protobuf.Mess.UDPMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.Mess.UDPMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protobuf.Mess.UDPMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protobuf.UDPMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protobuf.UDPMessage)
+        protobuf.Mess.UDPMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protobuf.Mess.internal_static_protobuf_UDPMessage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protobuf.Mess.internal_static_protobuf_UDPMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protobuf.Mess.UDPMessage.class, protobuf.Mess.UDPMessage.Builder.class);
+      }
+
+      // Construct using protobuf.Mess.UDPMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        type_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        img_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protobuf.Mess.internal_static_protobuf_UDPMessage_descriptor;
+      }
+
+      @java.lang.Override
+      public protobuf.Mess.UDPMessage getDefaultInstanceForType() {
+        return protobuf.Mess.UDPMessage.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protobuf.Mess.UDPMessage build() {
+        protobuf.Mess.UDPMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protobuf.Mess.UDPMessage buildPartial() {
+        protobuf.Mess.UDPMessage result = new protobuf.Mess.UDPMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.img_ = img_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.id_ = id_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = java.util.Collections.unmodifiableList(listId_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.listId_ = listId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protobuf.Mess.UDPMessage) {
+          return mergeFrom((protobuf.Mess.UDPMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protobuf.Mess.UDPMessage other) {
+        if (other == protobuf.Mess.UDPMessage.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasImg()) {
+          setImg(other.getImg());
+        }
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (!other.listId_.isEmpty()) {
+          if (listId_.isEmpty()) {
+            listId_ = other.listId_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureListIdIsMutable();
+            listId_.addAll(other.listId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protobuf.Mess.UDPMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protobuf.Mess.UDPMessage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int type_ = 1;
+      /**
+       * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+       */
+      public protobuf.Mess.UDPMessage.MessageType getType() {
+        @SuppressWarnings("deprecation")
+        protobuf.Mess.UDPMessage.MessageType result = protobuf.Mess.UDPMessage.MessageType.valueOf(type_);
+        return result == null ? protobuf.Mess.UDPMessage.MessageType.SCREEN : result;
+      }
+      /**
+       * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+       */
+      public Builder setType(protobuf.Mess.UDPMessage.MessageType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .protobuf.UDPMessage.MessageType type = 1 [default = SCREEN];</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString img_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes img = 2;</code>
+       */
+      public boolean hasImg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes img = 2;</code>
+       */
+      public com.google.protobuf.ByteString getImg() {
+        return img_;
+      }
+      /**
+       * <code>optional bytes img = 2;</code>
+       */
+      public Builder setImg(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        img_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes img = 2;</code>
+       */
+      public Builder clearImg() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        img_ = getDefaultInstance().getImg();
+        onChanged();
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000004;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 3;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> listId_ = java.util.Collections.emptyList();
+      private void ensureListIdIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          listId_ = new java.util.ArrayList<java.lang.Integer>(listId_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getListIdList() {
+        return java.util.Collections.unmodifiableList(listId_);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListIdCount() {
+        return listId_.size();
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public int getListId(int index) {
+        return listId_.get(index);
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder setListId(
+          int index, int value) {
+        ensureListIdIsMutable();
+        listId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addListId(int value) {
+        ensureListIdIsMutable();
+        listId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder addAllListId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureListIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, listId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 list_id = 4;</code>
+       */
+      public Builder clearListId() {
+        listId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protobuf.UDPMessage)
+    }
+
+    // @@protoc_insertion_point(class_scope:protobuf.UDPMessage)
+    private static final protobuf.Mess.UDPMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protobuf.Mess.UDPMessage();
+    }
+
+    public static protobuf.Mess.UDPMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<UDPMessage>
+        PARSER = new com.google.protobuf.AbstractParser<UDPMessage>() {
+      @java.lang.Override
+      public UDPMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UDPMessage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UDPMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UDPMessage> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protobuf.Mess.UDPMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protobuf_Message_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protobuf_Message_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protobuf_UDPMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protobuf_UDPMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1038,12 +2732,20 @@ public final class Mess {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nmess.proto\022\010protobuf\"\316\001\n\007Message\0222\n\004ty" +
+      "\n\nmess.proto\022\010protobuf\"\334\002\n\007Message\0222\n\004ty" +
       "pe\030\001 \002(\0162\035.protobuf.Message.MessageType:" +
-      "\005ERROR\022\014\n\004mess\030\002 \001(\t\022\n\n\002id\030\003 \001(\003\"u\n\013Mess" +
-      "ageType\022\t\n\005ERROR\020\000\022\010\n\004INFO\020\001\022\n\n\006SET_ID\020\002" +
-      "\022\013\n\007CONNECT\020\003\022\016\n\nDISCONNECT\020\004\022\017\n\013VIEW_SC" +
-      "REEN\020\n\022\r\n\tSEND_FILE\020\013\022\010\n\004CHAT\020\014B\006B\004Mess"
+      "\005ERROR\022\014\n\004mess\030\002 \001(\t\022\n\n\002id\030\003 \001(\005\022\017\n\007list" +
+      "_id\030\004 \003(\005\022\017\n\007content\030\005 \001(\014\022\020\n\010filename\030\006" +
+      " \001(\t\022\013\n\003img\030\007 \001(\014\022,\n\006answer\030\010 \001(\0162\034.prot" +
+      "obuf.Message.AnswerType\"u\n\013MessageType\022\t" +
+      "\n\005ERROR\020\000\022\010\n\004INFO\020\001\022\n\n\006SET_ID\020\002\022\013\n\007CONNE" +
+      "CT\020\003\022\016\n\nDISCONNECT\020\004\022\017\n\013VIEW_SCREEN\020\n\022\r\n" +
+      "\tSEND_FILE\020\013\022\010\n\004CHAT\020\014\"\035\n\nAnswerType\022\006\n\002" +
+      "NO\020\000\022\007\n\003YES\020\001\"\245\001\n\nUDPMessage\0226\n\004type\030\001 \002" +
+      "(\0162 .protobuf.UDPMessage.MessageType:\006SC" +
+      "REEN\022\013\n\003img\030\002 \001(\014\022\n\n\002id\030\003 \001(\005\022\017\n\007list_id" +
+      "\030\004 \003(\005\"5\n\013MessageType\022\n\n\006SET_ID\020\000\022\n\n\006SCR" +
+      "EEN\020\001\022\016\n\nDISCONNECT\020\002B\006B\004Mess"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1062,7 +2764,13 @@ public final class Mess {
     internal_static_protobuf_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_Message_descriptor,
-        new java.lang.String[] { "Type", "Mess", "Id", });
+        new java.lang.String[] { "Type", "Mess", "Id", "ListId", "Content", "Filename", "Img", "Answer", });
+    internal_static_protobuf_UDPMessage_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_protobuf_UDPMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protobuf_UDPMessage_descriptor,
+        new java.lang.String[] { "Type", "Img", "Id", "ListId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
